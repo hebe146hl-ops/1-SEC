@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一秒不差｜黃金泡茶手</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "微軟正黑體", sans-serif; }
+        body {
+            background: linear-gradient(135deg, #5d4037, #8d6e63);
+            min-height: 100vh;
+            color: #fff;
+            text-align: center;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        .activity-slogan {
+            font-size: 14px;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .sub-title { font-size: 16px; margin-bottom: 20px; opacity: 0.8; }
+        
+        /* 賽前小知識頁面優化 */
+        .intro-overlay {
+            width: 100%;
+            background: rgba(46, 34, 30, 0.98);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 22px 15px;
+            margin-top: 10px;
+            text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .intro-overlay h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px dashed rgba(255,215,0,0.3);
+            padding-bottom: 10px;
+        }
+        .intro-desc {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            text-align: center;
+        }
+
+        /* 茶葉秒數圖表卡片排版 */
+        .tea-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .tea-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+        .tea-card.highlight {
+            border: 1.5px solid #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        .tea-icon { font-size: 24px; margin-bottom: 5px; }
+        .tea-name { font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 3px; }
+        .tea-time { font-size: 18px; font-weight: bold; color: #ffeb3b; }
+        .tea-detail { font-size: 11px; color: #ccc; margin-top: 4px; line-height: 1.3; text-align: left; }
+
+        .ready-btn {
+            display: block;
+            width: 100%;
+            background: #ffd700;
+            color: #333;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+            text-align: center;
+        }
+
+        /* 遊戲核心區塊 */
+        .rule-box {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 15px;
+            text-align: left;
+        }
+        .time-box-wrapper {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            width: 100%;
+            padding: 30px 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+        .time-show {
+            font-size: 70px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.6);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .time-status {
+            font-size: 14px;
+            color: #ffeb3b;
+            margin-top: 5px;
+            height: 20px;
+        }
+        .result {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            min-height: 35px;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+        .gold { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .normal { color: #ffeb3b; }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 20px 0;
+        }
+        button.game-btn {
+            flex: 1;
+            padding: 18px 0;
+            font-size: 20px;
+            border: none;
+            border-radius: 12px;
+            margin: 0 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .start-btn { background: #ffd700; color: #333; }
+        .start-btn:disabled { background: #b0bec5; color: #78909c; box-shadow: none; }
+        .stop-btn { background: #ff4444; color: #fff; }
+        .stop-btn:disabled { background: #b0bec5; color: #78909c; box-shadow: none; }
+        button:active:not(:disabled) { transform: scale(0.95); }
+
+        .prize-box {
+            background: #fff3dd;
+            border: 2px dashed #c62828;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #c62828;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .tip {
+            width: 100%;
+            margin-top: 25px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            line-height: 1.8;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .tip h3 { color: #ffd700; margin-bottom: 10px; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px;}
+        .hide { display: none !important; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="activity-slogan">🍵 品茶睇時機 憑手感贏好茶 現場免費挑戰</div>
+    <h1 class="title">⏳ 一秒不差 黃金泡茶手</h1>
+    <p class="sub-title">網絡爆紅挑戰｜準確8秒出湯</p>
+
+    <div id="introPage" class="intro-overlay">
+        <h2>⏱️ 賽前必讀：各大茶類黃金秒數</h2>
+        <p class="intro-desc">唔同茶葉有唔同脾氣，浸茶秒數決定茶湯靈魂。記住以下密碼，等陣挑戰用得著！</p>
+        
+        <div class="tea-grid">
+            <div class="tea-card">
+                <div class="tea-icon">🍃</div>
+                <div class="tea-name">綠茶 (如西湖龍井)</div>
+                <div class="tea-time">15 - 20 秒</div>
+                <div class="tea-detail">不發酵茶。水溫不宜過高，需較長時間讓茶葉慢慢舒展。</div>
+            </div>
+            <div class="tea-card">
+                <div class="tea-icon">🍂</div>
+                <div class="tea-name">紅茶 (如正山小種)</div>
+                <div class="tea-time">5 - 10 秒</div>
+                <div class="tea-detail">全發酵茶。茶香釋放極快，快沖快出，慢了容易變酸澀。</div>
+            </div>
+            <div class="tea-card">
+                <div class="tea-icon">🪨</div>
+                <div class="tea-name">黑茶 (如普洱熟茶)</div>
+                <div class="tea-time">10 - 15 秒</div>
+                <div class="tea-detail">後發酵茶。茶質濃厚細密，需要適度浸泡才能逼出陳香。</div>
+            </div>
+            <div class="tea-card highlight">
+                <div class="tea-icon">🔥</div>
+                <div class="tea-name">烏龍/大紅袍 (本次主打)</div>
+                <div class="tea-time">🌟 8.00 秒</div>
+                <div class="tea-detail">半發酵岩茶。第一浸 8 秒出湯最能引出岩韻茶香，唔苦唔澀！</div>
+            </div>
+        </div>
+        
+        <button class="ready-btn" onclick="enterGame()">我已知曉，即刻挑戰 8.00 秒！</button>
+    </div>
+
+    <div id="gameContent" class="hide">
+        <div class="rule-box">
+            <b>遊戲玩法：</b><br>
+            1. 撳【開始計時】後螢幕數字會隱藏，請閂埋對眼憑感覺計時。<br>
+            2. 心裡數到剛才看過的岩茶黃金 <b>8.00 秒</b> 那一刻，即撳【即刻停手】！<br>
+            3. 黃金得獎範圍：<b>7.90秒 ~ 8.10秒</b>
+        </div>
+
+        <div class="time-box-wrapper">
+            <div class="time-show" id="timeNum">0.00</div>
+            <div class="time-status" id="timeStatus"></div>
+        </div>
+        
+        <div class="result" id="resText"></div>
+
+        <div id="prizeBox" class="prize-box hide">
+            🎉 恭喜中特獎！成為黃金泡茶大師！<br>
+            <span style="font-size:14px; font-weight:normal; color:#3e2723;">請即向現場職員出示此畫面領取【實體茶磚】！</span>
+        </div>
+
+        <div class="btn-group">
+            <button class="game-btn start-btn" id="startBtn" onclick="startTiming()">開始計時</button>
+            <button class="game-btn stop-btn" id="stopBtn" onclick="stopTiming()" disabled>即刻停手</button>
+        </div>
+
+        <div class="tip hide" id="knowBox">
+            <h3>🍵 泡茶小知識總結</h3>
+            1. <b>綠茶要慢、紅茶要快、普洱要適中、大紅袍要精準。</b><br>
+            2. 記住今天大紅袍的體感 8 秒，回家你也能泡出大師級茶湯！<br>
+            3. 歡迎到茗茶閣攤位品嚐由專業茶師精準控時沖泡的頂級茶飲。
+        </div>
+    </div>
+
+</div>
+
+<audio id="tickAudio" preload="auto">
+    <source src="https://www.soundjay.com/mechanical/clock-ticking-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    let timer = null;
+    let startTime = 0;
+    let isRun = false;
+    let realTime = 0;
+    
+    const introPage = document.getElementById('introPage');
+    const gameContent = document.getElementById('gameContent');
+    const timeDom = document.getElementById('timeNum');
+    const timeStatus = document.getElementById('timeStatus');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const resText = document.getElementById('resText');
+    const knowBox = document.getElementById('knowBox');
+    const prizeBox = document.getElementById('prizeBox');
+    const tickSound = document.getElementById('tickAudio');
+
+    tickSound.volume = 0.3;
+
+    function enterGame() {
+        introPage.classList.add('hide');
+        gameContent.classList.remove('hide');
+    }
+
+    function startTiming(){
+        if(isRun) return;
+        isRun = true;
+        startTime = Date.now();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        
+        resText.innerText = '';
+        prizeBox.classList.add('hide');
+        knowBox.classList.add('hide');
+        timeStatus.innerText = "⚠️ 數字已隱藏，請閉上眼睛憑直覺默數...";
+        timeDom.innerText = "?.??";
+        
+        tickSound.loop = true;
+        tickSound.play();
+
+        timer = setInterval(()=>{
+            let now = Date.now();
+            realTime = (now - startTime)/1000;
+        }, 10);
+    }
+
+    function stopTiming(){
+        if(!isRun) return;
+        clearInterval(timer);
+        isRun = false;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        
+        tickSound.pause();
+        tickSound.currentTime = 0;
+        timeStatus.innerText = "";
+
+        timeDom.innerText = realTime.toFixed(2);
+
+        let minGold = 7.90;
+        let maxGold = 8.10;
+
+        if(realTime >= minGold && realTime <= maxGold){
+            resText.className = 'result gold';
+            resText.innerText = `🔥 神級直覺！你按出了 ${realTime.toFixed(2)} 秒！`;
+            prizeBox.classList.remove('hide');
+            knowBox.classList.remove('hide');
+        } else {
+            resText.className = 'result normal';
+            resText.innerText = `手感仲差少少！你用咗 ${realTime.toFixed(2)} 秒，下次再挑戰啦！`;
+            knowBox.classList.remove('hide');
+        }
+    }
+</script>
+</body>
+</html>
