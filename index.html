@@ -41,7 +41,7 @@
         }
         .sub-title { font-size: 16px; margin-bottom: 20px; opacity: 0.8; }
         
-        /* 賽前小知識頁面優化 */
+        /* 賽前多茶類小知識頁面 */
         .intro-overlay {
             width: 100%;
             background: rgba(46, 34, 30, 0.98);
@@ -82,10 +82,6 @@
             padding: 12px;
             text-align: center;
         }
-        .tea-card.highlight {
-            border: 1.5px solid #ffd700;
-            background: rgba(255, 215, 0, 0.05);
-        }
         .tea-icon { font-size: 24px; margin-bottom: 5px; }
         .tea-name { font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 3px; }
         .tea-time { font-size: 18px; font-weight: bold; color: #ffeb3b; }
@@ -106,24 +102,59 @@
             text-align: center;
         }
 
+        /* 遊戲內茶類切換選擇器 */
+        .tea-selector {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .select-tab {
+            flex: 1;
+            padding: 10px 4px;
+            font-size: 13px;
+            background: rgba(0,0,0,0.4);
+            color: #ccc;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: none;
+            transition: 0.2s;
+        }
+        .select-tab.active {
+            background: #ffeb3b;
+            color: #333;
+            border-color: #ffeb3b;
+            box-shadow: 0 2px 8px rgba(255,235,59,0.4);
+        }
+        .select-tab:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* 遊戲核心區塊 */
         .rule-box {
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             line-height: 1.6;
             font-size: 15px;
             text-align: left;
         }
+        .rule-box b { color: #ffeb3b; }
+
         .time-box-wrapper {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
             width: 100%;
-            padding: 30px 10px;
-            margin-bottom: 20px;
+            padding: 25px 10px;
+            margin-bottom: 15px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .time-show {
             font-size: 70px;
@@ -137,11 +168,12 @@
             color: #ffeb3b;
             margin-top: 5px;
             height: 20px;
+            font-weight: bold;
         }
         .result {
             font-size: 22px;
             font-weight: bold;
-            margin: 15px 0;
+            margin: 10px 0;
             min-height: 35px;
             line-height: 1.4;
             padding: 0 10px;
@@ -153,7 +185,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         button.game-btn {
             flex: 1;
@@ -172,6 +204,21 @@
         .stop-btn { background: #ff4444; color: #fff; }
         .stop-btn:disabled { background: #b0bec5; color: #78909c; box-shadow: none; }
         button:active:not(:disabled) { transform: scale(0.95); }
+
+        /* 音樂控制按鈕樣式 */
+        .audio-ctrl {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #ccc;
+            cursor: pointer;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 5px;
+            width: auto;
+            display: inline-block;
+        }
 
         .prize-box {
             background: #fff3dd;
@@ -192,7 +239,7 @@
 
         .tip {
             width: 100%;
-            margin-top: 25px;
+            margin-top: 20px;
             background: rgba(0,0,0,0.3);
             padding: 20px;
             border-radius: 12px;
@@ -209,53 +256,59 @@
 
     <div class="activity-slogan">🍵 品茶睇時機 憑手感贏好茶 現場免費挑戰</div>
     <h1 class="title">⏳ 一秒不差 黃金泡茶手</h1>
-    <p class="sub-title">網絡爆紅挑戰｜準確8秒出湯</p>
+    <p class="sub-title">網絡爆紅挑戰｜看準時機精準出湯</p>
 
     <div id="introPage" class="intro-overlay">
         <h2>⏱️ 賽前必讀：各大茶類黃金秒數</h2>
-        <p class="intro-desc">唔同茶葉有唔同脾氣，浸茶秒數決定茶湯靈魂。記住以下密碼，等陣挑戰用得著！</p>
+        <p class="intro-desc">唔同茶葉有唔同脾氣，浸茶秒數決定茶湯靈魂。記住以下密碼，等陣可以自由選擇茶品挑戰！</p>
         
         <div class="tea-grid">
             <div class="tea-card">
                 <div class="tea-icon">🍃</div>
-                <div class="tea-name">綠茶 (如西湖龍井)</div>
-                <div class="tea-time">15 - 20 秒</div>
-                <div class="tea-detail">不發酵茶。水溫不宜過高，需較長時間讓茶葉慢慢舒展。</div>
+                <div class="tea-name">西湖龍井 (綠茶)</div>
+                <div class="tea-time">15.00 秒</div>
+                <div class="tea-detail">不發酵茶。水溫低，需較長時間讓茶香慢出。</div>
             </div>
             <div class="tea-card">
                 <div class="tea-icon">🍂</div>
-                <div class="tea-name">紅茶 (如正山小種)</div>
-                <div class="tea-time">5 - 10 秒</div>
-                <div class="tea-detail">全發酵茶。茶香釋放極快，快沖快出，慢了容易變酸澀。</div>
+                <div class="tea-name">正山小種 (紅茶)</div>
+                <div class="tea-time">5.00 秒</div>
+                <div class="tea-detail">全發酵茶。茶香釋放極快，慢了容易變酸澀。</div>
             </div>
             <div class="tea-card">
                 <div class="tea-icon">🪨</div>
-                <div class="tea-name">黑茶 (如普洱熟茶)</div>
-                <div class="tea-time">10 - 15 秒</div>
-                <div class="tea-detail">後發酵茶。茶質濃厚細密，需要適度浸泡才能逼出陳香。</div>
+                <div class="tea-name">普洱熟茶 (黑茶)</div>
+                <div class="tea-time">12.00 秒</div>
+                <div class="tea-detail">後發酵茶。茶質濃厚細密，需適度浸泡逼出陳香。</div>
             </div>
-            <div class="tea-card highlight">
+            <div class="tea-card">
                 <div class="tea-icon">🔥</div>
-                <div class="tea-name">烏龍/大紅袍 (本次主打)</div>
-                <div class="tea-time">🌟 8.00 秒</div>
-                <div class="tea-detail">半發酵岩茶。第一浸 8 秒出湯最能引出岩韻茶香，唔苦唔澀！</div>
+                <div class="tea-name">大紅袍 (岩茶)</div>
+                <div class="tea-time">8.00 秒</div>
+                <div class="tea-detail">半發酵岩茶。第一浸 8 秒出湯最能引出岩韻茶香。</div>
             </div>
         </div>
         
-        <button class="ready-btn" onclick="enterGame()">我已知曉，即刻挑戰 8.00 秒！</button>
+        <button class="ready-btn" onclick="enterGame()">我已知曉，即刻入場玩！</button>
     </div>
 
     <div id="gameContent" class="hide">
+        
+        <div class="tea-selector" id="teaSelector">
+            <button class="select-tab" id="tab-black" onclick="switchTea('black')">🍂 紅茶(5s)</button>
+            <button class="select-tab active" id="tab-oolong" onclick="switchTea('oolong')">🔥 大紅袍(8s)</button>
+            <button class="select-tab" id="tab-puer" onclick="switchTea('puer')">🪨 普洱(12s)</button>
+            <button class="select-tab" id="tab-green" onclick="switchTea('green')">🍃 龍井(15s)</button>
+        </div>
+
         <div class="rule-box">
-            <b>遊戲玩法：</b><br>
-            1. 撳【開始計時】後螢幕數字會隱藏，請閂埋對眼憑感覺計時。<br>
-            2. 心裡數到剛才看過的岩茶黃金 <b>8.00 秒</b> 那一刻，即撳【即刻停手】！<br>
-            3. 黃金得獎範圍：<b>7.90秒 ~ 8.10秒</b>
+            <b>目前挑戰：</b><span id="currentTeaName" style="color:#ffd700; font-weight:bold;">大紅袍</span><br>
+            <b>遊戲玩法：</b>撳【開始計時】看著數字奔跑，在最接近 <b id="targetRuleSec">8.00 秒</b> 的一瞬間撳停！誤差在正負 0.10 秒內即中獎！
         </div>
 
         <div class="time-box-wrapper">
             <div class="time-show" id="timeNum">0.00</div>
-            <div class="time-status" id="timeStatus"></div>
+            <div class="time-status" id="timeStatus">目標：8.00 秒</div>
         </div>
         
         <div class="result" id="resText"></div>
@@ -272,23 +325,40 @@
 
         <div class="tip hide" id="knowBox">
             <h3>🍵 泡茶小知識總結</h3>
-            1. <b>綠茶要慢、紅茶要快、普洱要適中、大紅袍要精準。</b><br>
-            2. 記住今天大紅袍的體感 8 秒，回家你也能泡出大師級茶湯！<br>
-            3. 歡迎到茗茶閣攤位品嚐由專業茶師精準控時沖泡的頂級茶飲。
+            <div id="dynamicTipText">
+                1. 大紅袍第一浸 8 秒倒茶，最容易引出茶香岩韻，唔苦唔澀。<br>
+                2. 浸得太短香氣出唔到，太耐就會變苦影響口感。<br>
+                3. 記住這個體感 8 秒，回家你也能泡出大師級茶湯！
+            </div>
         </div>
+
+        <button class="audio-ctrl" id="muteBtn" onclick="toggleMute()">🎵 關閉背景音樂</button>
     </div>
 
 </div>
+
+<audio id="bgMusic" preload="auto" loop>
+    <source src="https://assets.mixkit.co/music/preview/mixkit-games-worldbeat-144.mp3" type="audio/mpeg">
+</audio>
 
 <audio id="tickAudio" preload="auto">
     <source src="https://www.soundjay.com/mechanical/clock-ticking-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+    const teaData = {
+        black: { name: '正山小種 (紅茶)', target: 5.00, tip: '1. 紅茶屬於全發酵茶，茶香物質溶解速度極快。<br>2. 5秒快沖快出最能保持鮮甜，泡久了單寧酸釋放會帶酸澀感。<br>3. 練好5秒極速手，泡紅茶不踩雷！' },
+        oolong: { name: '大紅袍 (岩茶)', target: 8.00, tip: '1. 大紅袍第一浸 8 秒倒茶，最容易引出茶香岩韻，唔苦唔澀。<br>2. 浸得太短香氣出唔到，太耐就會變苦影響口感。<br>3. 記住這個體感 8 秒，回家你也能泡出大師級茶湯！' },
+        puer: { name: '普洱熟茶 (黑茶)', target: 12.00, tip: '1. 普洱熟茶經過渥堆發酵，茶質細密濃厚。<br>2. 需要12秒的黃金時間讓陳香與厚度充分融入水中，過快則淡。<br>3. 抓準12秒，泡出醇厚順滑的完美普洱！' },
+        green: { name: '西湖龍井 (綠茶)', target: 15.00, tip: '1. 綠茶是不發酵茶，葉片嬌嫩，水溫低。<br>2. 需要15秒的時間讓鮮爽度與茶基底慢慢釋放，急不得。<br>3. 15秒的優雅拿捏，正是綠茶回甘的秘密。' }
+    };
+
+    let currentTea = 'oolong';
     let timer = null;
     let startTime = 0;
     let isRun = false;
     let realTime = 0;
+    let isMuted = false;
     
     const introPage = document.getElementById('introPage');
     const gameContent = document.getElementById('gameContent');
@@ -299,13 +369,66 @@
     const resText = document.getElementById('resText');
     const knowBox = document.getElementById('knowBox');
     const prizeBox = document.getElementById('prizeBox');
+    
+    // 取得音訊元件
+    const bgMusic = document.getElementById('bgMusic');
     const tickSound = document.getElementById('tickAudio');
+    const muteBtn = document.getElementById('muteBtn');
+    
+    const currentTeaName = document.getElementById('currentTeaName');
+    const targetRuleSec = document.getElementById('targetRuleSec');
+    const dynamicTipText = document.getElementById('dynamicTipText');
 
-    tickSound.volume = 0.3;
+    // 初始音量調整
+    bgMusic.volume = 0.2; // 背景音樂小聲襯底即可
+    tickSound.volume = 0.4;
 
     function enterGame() {
         introPage.classList.add('hide');
         gameContent.classList.remove('hide');
+        updateUI();
+        
+        // 💡 核心優化：繞過手機瀏覽器限制，在使用者點選按鈕時正式播放 BGM
+        if(!isMuted) {
+            bgMusic.play().catch(e => console.log("Audio play blocked: ", e));
+        }
+    }
+
+    // 💡 靜音/開音樂切換
+    function toggleMute() {
+        isMuted = !isMuted;
+        if(isMuted) {
+            bgMusic.pause();
+            tickSound.volume = 0;
+            muteBtn.innerText = "🎵 開啟背景音樂";
+        } else {
+            bgMusic.play();
+            tickSound.volume = 0.4;
+            muteBtn.innerText = "🎵 關閉背景音樂";
+        }
+    }
+
+    function switchTea(teaKey) {
+        if (isRun) return;
+        currentTea = teaKey;
+        
+        const tabs = document.querySelectorAll('.select-tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.getElementById(`tab-${teaKey}`).classList.add('active');
+        
+        updateUI();
+    }
+
+    function updateUI() {
+        const data = teaData[currentTea];
+        currentTeaName.innerText = data.name;
+        targetRuleSec.innerText = data.target.toFixed(2) + ' 秒';
+        timeStatus.innerText = `目標：${data.target.toFixed(2)} 秒`;
+        dynamicTipText.innerHTML = data.tip;
+        timeDom.innerText = "0.00";
+        resText.innerText = '';
+        prizeBox.classList.add('hide');
+        knowBox.classList.add('hide');
     }
 
     function startTiming(){
@@ -315,11 +438,16 @@
         startBtn.disabled = true;
         stopBtn.disabled = false;
         
+        const tabs = document.querySelectorAll('.select-tab');
+        tabs.forEach(tab => tab.disabled = true);
+        
         resText.innerText = '';
         prizeBox.classList.add('hide');
         knowBox.classList.add('hide');
-        timeStatus.innerText = "⚠️ 數字已隱藏，請閉上眼睛憑直覺默數...";
-        timeDom.innerText = "?.??";
+        timeStatus.innerText = `🔥 盯緊數字！衝擊 ${teaData[currentTea].target.toFixed(2)} 秒！`;
+        
+        // 降低一點背景音樂，讓滴答聲明顯一點
+        if(!isMuted) bgMusic.volume = 0.08;
         
         tickSound.loop = true;
         tickSound.play();
@@ -327,6 +455,7 @@
         timer = setInterval(()=>{
             let now = Date.now();
             realTime = (now - startTime)/1000;
+            timeDom.innerText = realTime.toFixed(2);
         }, 10);
     }
 
@@ -337,23 +466,30 @@
         startBtn.disabled = false;
         stopBtn.disabled = true;
         
+        const tabs = document.querySelectorAll('.select-tab');
+        tabs.forEach(tab => tab.disabled = false);
+        
+        // 恢復背景音樂音量
+        if(!isMuted) bgMusic.volume = 0.2;
+        
         tickSound.pause();
         tickSound.currentTime = 0;
         timeStatus.innerText = "";
 
         timeDom.innerText = realTime.toFixed(2);
 
-        let minGold = 7.90;
-        let maxGold = 8.10;
+        let targetTime = teaData[currentTea].target;
+        let minGold = targetTime - 0.10;
+        let maxGold = targetTime + 0.10;
 
         if(realTime >= minGold && realTime <= maxGold){
             resText.className = 'result gold';
-            resText.innerText = `🔥 神級直覺！你按出了 ${realTime.toFixed(2)} 秒！`;
+            resText.innerText = `🔥 完美動態視力！你按出了 ${realTime.toFixed(2)} 秒！`;
             prizeBox.classList.remove('hide');
             knowBox.classList.remove('hide');
         } else {
             resText.className = 'result normal';
-            resText.innerText = `手感仲差少少！你用咗 ${realTime.toFixed(2)} 秒，下次再挑戰啦！`;
+            resText.innerText = `差少少！你用咗 ${realTime.toFixed(2)} 秒（目標是 ${targetTime.toFixed(2)} 秒），下次再試！`;
             knowBox.classList.remove('hide');
         }
     }
